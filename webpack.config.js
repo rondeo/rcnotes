@@ -1,3 +1,5 @@
+const path = require('path');
+
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
@@ -57,6 +59,9 @@ module.exports = {
     plugins: [
       new DirectoryNamedWebpackPlugin(true),
     ],
+    alias: {
+      components: path.resolve(__dirname, './src/components/'),
+    },
   },
   plugins: [
     new HtmlWebPackPlugin({

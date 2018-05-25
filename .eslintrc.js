@@ -4,9 +4,10 @@ module.exports = {
         browser: true,
     },
     settings: {
-        "import/resolver": "webpack"
+        "import/resolver": "webpack",
     },
     rules: {
-        "import/extensions": false
+        "import/extensions": false,
+        "import/no-unresolved": false,
     }
 };

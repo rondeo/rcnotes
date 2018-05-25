@@ -1,11 +1,13 @@
 import React from 'react';
 
-import style from './main.css';
-
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const App = () => (
   <div>
-    <p className={style.text}>hello world</p>
+    <Header />
+    <p>hello world</p>
+    <Footer />
   </div>
 );
 

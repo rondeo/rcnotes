@@ -1,8 +1,15 @@
+// @flow
 import React from 'react';
 import styles from './header.styl';
 
-const Header = () => (
-  <header className={styles.root}>header</header>
+type Props = {
+  title: string,
+}
+
+const Header = ({ title }: Props) => (
+  <header className={styles.root}>
+    <div>{title}</div>
+  </header>
 );
 
 export default Header;

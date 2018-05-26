@@ -1,5 +1,3 @@
-const path = require('path');
-
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
@@ -56,12 +54,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    modules: ['src', 'node_modules'],
     plugins: [
       new DirectoryNamedWebpackPlugin(true),
     ],
-    alias: {
-      components: path.resolve(__dirname, './src/components/'),
-    },
   },
   plugins: [
     new HtmlWebPackPlugin({
@@ -73,4 +69,10 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
   ],
+
+  devServer: {
+    open: true,
+    historyApiFallback: true,
+  },
+
 };

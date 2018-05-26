@@ -1,5 +1,6 @@
 module.exports = {
     "extends": "airbnb",
+    parser: "babel-eslint",
     env: {
         browser: true,
     },
@@ -8,6 +9,5 @@ module.exports = {
     },
     rules: {
         "import/extensions": false,
-        "import/no-unresolved": false,
     }
 };

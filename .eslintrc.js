@@ -9,5 +9,7 @@ module.exports = {
     },
     rules: {
         "import/extensions": false,
+        "array-callback-return": 0,
+        "default-case": 0,
     }
 };

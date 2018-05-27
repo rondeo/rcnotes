@@ -1,8 +1,11 @@
+const path = require('path');
+
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 
 module.exports = {
+  entry: ['./src/index.js', './src/styles/main.styl'],
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
@@ -45,6 +48,7 @@ module.exports = {
           options: {
             compress: false,
             sourceMap: true,
+            import: path.resolve(__dirname, './src/styles/vars.styl'),
           },
         },
       ],
@@ -54,7 +58,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: ['src', 'node_modules'],
+    modules: ['src', 'store', 'node_modules'],
     plugins: [
       new DirectoryNamedWebpackPlugin(true),
     ],

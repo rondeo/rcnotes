@@ -109,17 +109,20 @@ class IndexedDBApi {
   }
 
   getItem(table, id) {
-    const tx = this.db.transaction(table, 'readonly');
-    const store = tx.objectStore(table);
-    const request = store.get(id);
-    return new Promise(((resolve, reject) => {
-      request.onerror = (event) => {
-        reject(event.target.error);
-      };
-      request.onsuccess = (event) => {
-        resolve(event.target.result);
-      };
-    }));
+    return this.getDatabase(table)
+      .then(() => {
+        const transaction = this.db.transaction(table, 'readonly');
+        const store = transaction.objectStore(table);
+        const objectStoreRequest = store.get(id);
+        return new Promise(((resolve, reject) => {
+          objectStoreRequest.onerror = (event) => {
+            reject(event.target.error);
+          };
+          objectStoreRequest.onsuccess = (event) => {
+            resolve(event.target.result);
+          };
+        }));
+      });
   }
 
   editItem(table, id, options) {

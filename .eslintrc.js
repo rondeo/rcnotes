@@ -11,5 +11,15 @@ module.exports = {
         "import/extensions": false,
         "array-callback-return": 0,
         "default-case": 0,
+
+        // react
+        "react/sort-comp": [1, {
+            order: [
+                'static-methods',
+                'lifecycle',
+                'render',
+                'everything-else'
+            ]
+        }]
     }
 };

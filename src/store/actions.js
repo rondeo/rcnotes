@@ -1,8 +1,21 @@
 /* eslint-disable import/prefer-default-export */
 import {
+  NOTE_LOAD,
   NOTES_LOAD,
   NOTE_ADD,
+  NOTE_EDIT,
+  NOTE_DELETE,
 } from './constants';
+
+export function singleNoteLoadAction(id) {
+  return {
+    type: NOTE_LOAD,
+    payload: {
+      id,
+      table: 'notes',
+    },
+  };
+}
 
 export function notesLoadAction() {
   return {
@@ -19,6 +32,27 @@ export function noteAddAction({ title, text }) {
     payload: {
       title,
       text,
+      table: 'notes',
+    },
+  };
+}
+
+export function noteEditAction({ id, ...rest }) {
+  return {
+    type: NOTE_EDIT,
+    payload: {
+      id,
+      ...rest,
+      table: 'notes',
+    },
+  };
+}
+
+export function noteDeleteAction(id) {
+  return {
+    type: NOTE_DELETE,
+    payload: {
+      id,
       table: 'notes',
     },
   };

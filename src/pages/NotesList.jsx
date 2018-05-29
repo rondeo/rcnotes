@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { notesLoadAction, noteDeleteAction } from 'store/actions';
 import NotePreview from 'components/NotePreview';
 
-import routes from '../routes';
+import routes from 'routes';
 
 class NotesList extends PureComponent {
   componentDidMount() {
@@ -23,8 +23,8 @@ class NotesList extends PureComponent {
                 link={`${routes.list.path}/${item.id}`}
                 id={item.id}
                 title={item.title}
-                date={item.date}
-                preview={item.preview}
+                editingDate={item.editingDate}
+                preview={item.text}
                 active
                 deleteHandler={() => this.deleteHandler(item.id)}
               />

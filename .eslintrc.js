@@ -13,6 +13,10 @@ module.exports = {
         "default-case": 0,
 
         // react
+        "jsx-a11y/anchor-is-valid": [ "error", {
+            "components": [ "Link" ],
+            "specialLink": [ "to" ]
+        }],
         "react/sort-comp": [1, {
             order: [
                 'static-methods',

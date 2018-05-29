@@ -26,23 +26,22 @@ export function notesLoadAction() {
   };
 }
 
-export function noteAddAction({ title, text }) {
+export function noteAddAction({ ...data }) {
   return {
     type: NOTE_ADD,
     payload: {
-      title,
-      text,
+      ...data,
       table: 'notes',
     },
   };
 }
 
-export function noteEditAction({ id, ...rest }) {
+export function noteEditAction({ id, ...data }) {
   return {
     type: NOTE_EDIT,
     payload: {
       id,
-      ...rest,
+      ...data,
       table: 'notes',
     },
   };

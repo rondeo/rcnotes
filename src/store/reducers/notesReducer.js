@@ -44,9 +44,17 @@ export default (state = defaultState, action) => {
       newState.isLoading = false;
       break;
     }
-    case NOTE_DELETE:
+    case NOTE_ADD: {
+      newState.items = [
+        ...state.items,
+        ...action.payload,
+      ];
+      break;
+    }
+    case NOTE_DELETE: {
       newState.items = state.items.filter(el => el.id !== action.payload.id);
-      return newState;
+      break;
+    }
   }
 
   return newState;

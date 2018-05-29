@@ -64,9 +64,9 @@ export default store => next => (action) => {
     }
     case NOTE_ADD: {
       const { table, ...rest } = action.payload;
-      const noteData = { ...rest, date: +new Date() };
+      const noteData = { ...rest, creationDate: +new Date(), editingDate: +new Date() };
       db
-        .addItem(table, { ...rest })
+        .addItem(table, { ...noteData })
         .then((noteId) => {
           next({
             ...action,
@@ -82,7 +82,7 @@ export default store => next => (action) => {
     }
     case NOTE_EDIT: {
       const { id, table, ...rest } = action.payload;
-      const noteData = { ...rest, date: +new Date() };
+      const noteData = { ...rest, editingDate: +new Date() };
       db
         .editItem(table, id, noteData)
         .then((noteId) => {

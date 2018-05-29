@@ -58,7 +58,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
-    modules: ['src', 'store', 'node_modules'],
+    modules: ['src', 'node_modules'],
     plugins: [
       new DirectoryNamedWebpackPlugin(true),
     ],

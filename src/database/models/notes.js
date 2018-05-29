@@ -6,6 +6,8 @@ const notes = {
   },
   indexes: {
     title: { unique: false },
+    creationDate: { unique: false },
+    editingDate: { unique: false },
   },
 };
 

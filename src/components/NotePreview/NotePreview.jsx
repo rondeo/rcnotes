@@ -1,47 +1,54 @@
 // @flow
 import React from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { format } from 'date-fns';
 import TextTruncate from 'react-text-truncate';
 
 import styles from './note-preview.styl';
 
-type Props = {
+type ItemProps = {
   id: number,
-  link: string,
   title: string,
   editingDate: number,
-  preview: string,
-  active: ?boolean,
+  text: string,
+}
+
+type Props = {
+  link: string,
+  item: ItemProps,
+  active: boolean,
   deleteHandler: void,
 }
 
 const NotePreview = ({
-  id, link, title, editingDate, preview, active, deleteHandler,
+  link, item, active, deleteHandler,
 }: Props) => (
-  <article className={cx(styles.root, active && styles.rootActive)} >
-    <div className={styles.rootContainer}>
-      <Link to={link} className={styles.rootLink} >
-        <div className={styles.rootDate}>
-          {format(new Date(editingDate), 'DD.MM.YYYY')}
-        </div>
-        <TextTruncate
-          line={2}
-          truncateText="…"
-          text={title}
-          className={styles.rootTitle}
-        />
-        <TextTruncate
-          line={2}
-          truncateText="…"
-          text={preview}
-          className={styles.rootPreview}
-        />
-      </Link>
-      <div className={styles.rootUnderside}>
-        <button type="button" onClick={deleteHandler}>delete</button>
+  <article className={cx(styles.root, active && styles.rootLinkActive)} >
+    <NavLink
+      to={link}
+      exact
+      className={styles.rootLink}
+      activeClassName={styles.rootLinkActive}
+    >
+      <div className={styles.rootDate}>
+        {format(new Date(item.editingDate), 'DD.MM.YYYY')}
       </div>
+      <TextTruncate
+        line={2}
+        truncateText="…"
+        text={item.title}
+        className={styles.rootTitle}
+      />
+      <TextTruncate
+        line={2}
+        truncateText="…"
+        text={item.text}
+        className={styles.rootPreview}
+      />
+    </NavLink>
+    <div className={styles.rootUnderside}>
+      <button type="button" onClick={deleteHandler}>delete</button>
     </div>
   </article>
 );

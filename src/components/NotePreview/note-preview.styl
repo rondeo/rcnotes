@@ -1,21 +1,20 @@
 .root
   color $subText
-  border-left 4px solid transparent
-  padding-left 10px
-  &Active
-    border-left-color $pink
+  position relative
   &Container
-    position relative
   &Link
     text-decoration none
     padding 15px 10px 10px
     background-color $bg
+    border-left 4px solid transparent
     border-bottom 1px solid $gray
     position relative
     z-index 2
     display block
+    &Active
+      border-left-color $red
   &Title
-    color $text
+    color $textColor
     font-size 18px
     font-weight 700
     margin-bottom 5px

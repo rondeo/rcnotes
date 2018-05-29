@@ -1,6 +1,7 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { singleNoteLoadAction, noteEditAction, noteDeleteAction } from 'store/actions';
 import NoteInner from 'components/NoteInner';
@@ -11,6 +12,11 @@ class NoteDetail extends PureComponent {
     this.props.dispatch(singleNoteLoadAction(this.props.id));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id === this.props.id) return;
+    this.props.dispatch(singleNoteLoadAction(nextProps.id));
+  }
+
   render() {
     const { item } = this.props;
     if (!item) return <NotFoundPage />;
@@ -18,8 +24,7 @@ class NoteDetail extends PureComponent {
       <NoteInner
         initialValues={item && { ...item }}
         submitHandler={this.submitHandler}
-        title={item.title}
-        text={item.text}
+        item={item}
       />
     );
   }
@@ -32,4 +37,4 @@ class NoteDetail extends PureComponent {
   }
 }
 
-export default connect(({ notes }) => ({ item: notes.item }))(NoteDetail);
+export default withRouter(connect(({ notes }) => ({ item: notes.item }))(NoteDetail));

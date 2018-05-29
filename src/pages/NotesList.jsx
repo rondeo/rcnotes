@@ -1,6 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { notesLoadAction, noteDeleteAction } from 'store/actions';
 import NotePreview from 'components/NotePreview';
@@ -15,23 +16,21 @@ class NotesList extends PureComponent {
   render() {
     const { items } = this.props;
     return (
-      <section>
+      <div className="">
+        search
         {items.length
-            ? items.map(item => (
-              <NotePreview
-                key={item.id}
-                link={`${routes.list.path}/${item.id}`}
-                id={item.id}
-                title={item.title}
-                editingDate={item.editingDate}
-                preview={item.text}
-                active
-                deleteHandler={() => this.deleteHandler(item.id)}
-              />
-            ))
-          : 'There are no notes'
-          }
-      </section>
+          ? items.map(item => (
+            <NotePreview
+              key={item.id}
+              link={`${routes.list.path}/${item.id}`}
+              item={item}
+              active
+              deleteHandler={() => this.deleteHandler(item.id)}
+            />
+          ))
+        : 'There are no notes, create a fist one!'
+        }
+      </div>
     );
   }
 
@@ -40,4 +39,4 @@ class NotesList extends PureComponent {
   };
 }
 
-export default connect(({ notes }) => ({ items: notes.items }))(NotesList);
+export default withRouter(connect(({ notes }) => ({ items: notes.items }))(NotesList));

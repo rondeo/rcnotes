@@ -1,43 +1,38 @@
 // @flow
 import React from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import Home from 'pages/Home';
 import CreateNote from 'pages/CreateNote';
+import Notes from 'pages/Notes';
 import NotesList from 'pages/NotesList';
 import NoteDetail from 'pages/NoteDetail';
 import NotFoundPage from 'pages/NotFoundPage';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import Menu from 'components/Menu';
 
 import routes from 'routes';
 
+import styles from './root.styl';
+
 const Root = () => (
-  <div className="" style={{ height: window.innerHeight }}>
+  <div className={styles.rootCanvas} style={{ height: window.innerHeight }}>
     <Header title={42} />
-    <div>
-      {Object.keys(routes).map(key => (
-        <div key={key}>
-          <NavLink exact to={routes[key].path} activeStyle={{ color: 'red' }}>
-            {routes[key].name}
-          </NavLink>
-        </div>
-        ))}
+    <div className={styles.rootLayout}>
+      <div className={styles.rootMenu}>
+        <Menu />
+      </div>
+      <main className={styles.rootMain}>
+        <Switch>
+          <Route exact path={routes.home.path} component={Home} />
+          <Route path={routes.list.path} component={Notes} />
+          <Route exact path={routes.new.path} component={CreateNote} />
+          <Route path="*" component={NotFoundPage} />
+        </Switch>
+      </main>
     </div>
-    <br />
-    <br />
-    <Switch>
-      <Route exact path={routes.home.path} component={Home} />
-      <Route exact path={routes.list.path} component={NotesList} />
-      <Route
-        exact
-        path={`${routes.list.path}/:id`}
-        render={({ match }) => <NoteDetail id={+match.params.id} />}
-      />
-      <Route exact path={routes.new.path} component={CreateNote} />
-      <Route path="*" component={NotFoundPage} />
-    </Switch>
     <Footer />
   </div>
 );

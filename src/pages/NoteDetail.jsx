@@ -1,40 +1,31 @@
 // @flow
-import React, { Component, PureComponent } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
-import { singleNoteLoadAction, noteEditAction, noteDeleteAction } from 'store/actions';
+import { noteEditAction, noteDeleteAction } from 'store/actions';
+import { noteByIdSelector } from 'store/selectors';
 import NoteInner from 'components/NoteInner';
 import NotFoundPage from 'components/NotFoundPage';
 
-class NoteDetail extends PureComponent {
-  componentDidMount() {
-    this.props.dispatch(singleNoteLoadAction(this.props.id));
-  }
+const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
+  if (!item) return <NotFoundPage />;
+  return (
+    <NoteInner
+      initialValues={item}
+      submitHandler={submitHandler}
+      deleteHandler={deleteHandler}
+      item={item}
+    />
+  );
+};
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.id === this.props.id) return;
-    this.props.dispatch(singleNoteLoadAction(nextProps.id));
-  }
+const mapStateToProps = (state, ownProps) => ({
+  item: noteByIdSelector(state, ownProps),
+});
 
-  render() {
-    const { item } = this.props;
-    if (!item) return <NotFoundPage />;
-    return (
-      <NoteInner
-        initialValues={item && { ...item }}
-        submitHandler={this.submitHandler}
-        item={item}
-      />
-    );
-  }
+const mapDispatchToProps = dispatch => ({
+  deleteHandler: id => dispatch(noteDeleteAction(id)),
+  submitHandler: ({ id, title, text }) => dispatch(noteEditAction({ id, title, text })),
+});
 
-  deleteHandler = (id) => {
-    this.props.dispatch(noteDeleteAction(id));
-  }
-  submitHandler = ({ id, title, text }) => {
-    this.props.dispatch(noteEditAction({ id, title, text }));
-  }
-}
-
-export default withRouter(connect(({ notes }) => ({ item: notes.item }))(NoteDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(NoteDetail);

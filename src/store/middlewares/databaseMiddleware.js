@@ -111,13 +111,7 @@ export default store => next => (action) => {
           });
           return noteId;
         })
-        .catch((error) => {
-          next({
-            ...action,
-            type: type + FAIL,
-            error,
-          });
-        });
+        .catch(error => errorAction(error));
     }
     default: {
       next(action);

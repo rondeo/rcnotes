@@ -15,11 +15,7 @@ const Notes = () => (
       <NotesList />
     </section>
     <section className={styles.rootDetail}>
-      <Route
-        exact
-        path={`${routes.list.path}/:id`}
-        render={({ match }) => <NoteDetail id={+match.params.id} />}
-      />
+      <Route exact path={`${routes.list.path}/:id`} component={NoteDetail} />
     </section>
   </div>
 );

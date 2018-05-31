@@ -2,6 +2,7 @@ import {
   NOTE_LOAD,
   NOTES_LOAD,
   NOTE_ADD,
+  NOTE_EDIT,
   NOTE_DELETE,
   START,
   SUCCESS,
@@ -46,8 +47,16 @@ export default (state = defaultState, action) => {
     }
     case NOTE_ADD: {
       newState.items = [
+        action.payload, // TODO: payload.item
         ...state.items,
-        ...action.payload,
+      ];
+      break;
+    }
+    case NOTE_EDIT: {
+      const items = state.items.filter(el => el.id !== action.payload.id);
+      newState.items = [
+        action.payload, // TODO: payload.item
+        ...items,
       ];
       break;
     }

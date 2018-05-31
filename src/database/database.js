@@ -71,7 +71,7 @@ class IndexedDBApi {
         const transaction = this.db.transaction([table], 'readonly');
         const store = transaction.objectStore(table);
         const notes = [];
-        const openCursor = store.openCursor();
+        const openCursor = store.index('editingDate').openCursor(null, 'prev');
 
         return new Promise((resolve, reject) => {
           openCursor.onsuccess = (event) => {

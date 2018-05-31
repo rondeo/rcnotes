@@ -5,8 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import Home from 'pages/Home';
 import CreateNote from 'pages/CreateNote';
 import Notes from 'pages/Notes';
-import NotesList from 'pages/NotesList';
-import NoteDetail from 'pages/NoteDetail';
 import NotFoundPage from 'pages/NotFoundPage';
 
 import Header from 'components/Header';

@@ -7,53 +7,59 @@ const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 module.exports = {
   entry: ['./src/index.js', './src/styles/main.styl'],
   module: {
-    rules: [{
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
       },
-    },
-    {
-      test: /\.html$/,
-      use: [{
-        loader: 'html-loader',
-        options: {
-          minimize: false,
-        },
-      }],
-    },
-    {
-      test: /\.styl$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
+      {
+        test: /\.html$/,
+        use: [{
+          loader: 'html-loader',
           options: {
-            modules: true,
-            importLoaders: 1,
-            minimize: true,
-            sourceMap: true,
-            localIdentName: '[name]-[local]___[hash:base64:5]',
+            minimize: false,
           },
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
+        }],
+      },
+      {
+        test: /\.styl$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              minimize: true,
+              sourceMap: true,
+              localIdentName: '[name]__[local]_[hash:base64:5]',
+            },
           },
-        },
-        {
-          loader: 'stylus-loader',
-          options: {
-            compress: false,
-            sourceMap: true,
-            import: path.resolve(__dirname, './src/styles/vars.styl'),
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
           },
+          {
+            loader: 'stylus-loader',
+            options: {
+              compress: false,
+              sourceMap: true,
+              import: path.resolve(__dirname, './src/styles/vars.styl'),
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg|ico)$/,
+        use: {
+          loader: 'svg-react-loader',
         },
-      ],
-    },
-
+      },
     ],
   },
   resolve: {

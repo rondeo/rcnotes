@@ -17,37 +17,38 @@ type ItemProps = {
 type Props = {
   link: string,
   item: ItemProps,
-  active: boolean,
+  active?: boolean,
+  noteless?: boolean,
   deleteHandler: void,
 }
 
 const NotePreview = ({
-  link, item, active, deleteHandler,
+  link, item, active, noteless, deleteHandler,
 }: Props) => (
-  <article className={cx(styles.root, active && styles.rootLinkActive)} >
+  <article className={cx(styles.wrapper, active && styles.link_active)} >
     <NavLink
       to={link}
       exact
-      className={styles.rootLink}
-      activeClassName={styles.rootLinkActive}
+      className={styles.link}
+      activeClassName={styles.link_active}
     >
-      <div className={styles.rootDate}>
+      <div className={styles.date}>
         {format(new Date(item.editingDate), 'DD.MM.YYYY')}
       </div>
       <TextTruncate
         line={2}
         truncateText="…"
         text={item.title}
-        className={styles.rootTitle}
+        className={cx(styles.title, noteless && styles.title_noteless)}
       />
       <TextTruncate
         line={2}
         truncateText="…"
         text={item.text}
-        className={styles.rootPreview}
+        className={styles.preview}
       />
     </NavLink>
-    <div className={styles.rootUnderside}>
+    <div className={styles.underside}>
       <button type="button" onClick={deleteHandler}>delete</button>
     </div>
   </article>

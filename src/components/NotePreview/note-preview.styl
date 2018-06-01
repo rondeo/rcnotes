@@ -1,30 +1,36 @@
-.root
+.wrapper
   color $subText
+  font-size 14px
   position relative
-  &Container
-  &Link
-    text-decoration none
-    padding 15px 10px 10px
-    background-color $bg
-    border-left 4px solid transparent
-    border-bottom 1px solid $gray
-    position relative
-    z-index 2
-    display block
-    &Active
-      border-left-color $red
-  &Title
-    color $textColor
-    font-size 18px
-    font-weight 700
-    margin-bottom 5px
-    display block
-  &Date
-    font-size $smallSize
-  &Underside
-    width 100%
-    height 100%
-    position absolute
-    top 0
-    left 0
-    z-index 1
+
+.link
+  text-decoration none
+  padding 15px 10px 10px
+  background-color $bg
+  border-left 4px solid transparent
+  border-bottom 1px solid $gray
+  position relative
+  z-index 2
+  display block
+  &_active
+    border-left-color $red
+
+.title
+  color $textColor
+  font-size 18px
+  line-height 1.25
+  margin-bottom 5px
+  display block
+  &_noteless
+    color inherit
+
+.date
+  font-size $smallSize
+
+.underside
+  width 100%
+  height 100%
+  position absolute
+  top 0
+  left 0
+  z-index 1

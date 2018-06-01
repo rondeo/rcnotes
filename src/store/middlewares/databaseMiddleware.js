@@ -1,4 +1,6 @@
-import db from '../../database';
+import { push } from 'react-router-redux';
+import db from 'database';
+import routes from 'routes';
 import {
   NOTE_LOAD,
   NOTES_LOAD,
@@ -77,6 +79,9 @@ export default store => next => (action) => {
           });
           return noteId;
         })
+        .then((noteId) => {
+          store.dispatch(push(`${routes.list.path}/${noteId}`));
+        })
         .catch(error => errorAction(error));
       return;
     }
@@ -109,7 +114,9 @@ export default store => next => (action) => {
               id: noteId,
             },
           });
-          return noteId;
+        })
+        .then(() => {
+          store.dispatch(push(routes.list.path));
         })
         .catch(error => errorAction(error));
     }

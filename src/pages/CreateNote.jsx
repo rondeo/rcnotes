@@ -5,15 +5,15 @@ import { noteAddAction } from 'store/actions';
 
 import NoteInner from 'components/NoteInner';
 
-const CreateNote = ({ dispatch }) => {
-  const submitHandler = (values) => {
-    dispatch(noteAddAction(values));
-  };
+const CreateNote = ({ submitHandler }) => (
+  <NoteInner submitHandler={submitHandler} />
+);
 
-  return (
-    <NoteInner submitHandler={submitHandler} />
-  );
-};
+const mapDispatchToProps = dispatch => ({
+  submitHandler: values => dispatch(noteAddAction(values)),
+});
 
-
-export default connect()(CreateNote);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CreateNote);

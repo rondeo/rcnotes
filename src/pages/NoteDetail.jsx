@@ -14,7 +14,6 @@ const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
       initialValues={item}
       submitHandler={submitHandler}
       deleteHandler={deleteHandler}
-      item={item}
     />
   );
 };
@@ -25,7 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   deleteHandler: id => dispatch(noteDeleteAction(id)),
-  submitHandler: ({ id, title, text }) => dispatch(noteEditAction({ id, title, text })),
+  submitHandler: note => dispatch(noteEditAction(note)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteDetail);

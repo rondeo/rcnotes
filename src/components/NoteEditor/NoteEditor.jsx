@@ -1,44 +1,98 @@
-
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
-import { Value } from 'slate';
-import { isKeyHotkey } from 'is-hotkey';
+import { Block, Value } from 'slate';
+import Html from 'slate-html-serializer';
+import Plain from 'slate-plain-serializer';
+import { CHILD_REQUIRED, CHILD_TYPE_INVALID } from 'slate-schema-violations';
 
 import EditorToolbar from 'components/EditorToolbar';
 
-import commonStyle from 'styles/main.styl';
-import initialValue from './value.json';
+import {
+  rules,
+  renderMark,
+  renderNode,
+  getMarkFromHotkey,
+  getTtile,
+  getPreview,
+} from './utils';
 import styles from './note-editor.styl';
 
-const isBoldHotkey = isKeyHotkey('mod+b');
-const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
-const isCodeHotkey = isKeyHotkey('mod+`');
+
+const html = new Html({ rules });
 
 class NoteEditor extends Component {
-  state = {
-    value: Value.fromJSON(initialValue),
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: this.createValue(props),
+    };
+  }
+
+  schema = {
+    document: {
+      nodes: [
+        { types: ['h1'], min: 1, max: 1 },
+        { types: ['div'], min: 1 },
+      ],
+      normalize: (change, violation, { node, child, index }) => {
+        switch (violation) {
+          case CHILD_TYPE_INVALID: {
+            return change.setNodeByKey(
+              child.key,
+              index === 0 ? 'h1' : 'div',
+            );
+          }
+          case CHILD_REQUIRED: {
+            const block = Block.create(index === 0 ? 'h1' : 'div');
+            return change.insertNodeByKey(node.key, index, block);
+          }
+        }
+      },
+    },
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value.id === nextProps.value.id) return;
+    this.setState({
+      value: this.createValue(nextProps),
+    });
   }
 
   render() {
+    const { placeholder } = this.props;
+
     return (
       <div>
         <EditorToolbar value={this.state.value} changeHandler={this.onChange} />
-
         <div className={styles.editor}>
           <Editor
-            placeholder="Enter some rich text..."
+            schema={this.schema}
+            placeholder={placeholder}
             value={this.state.value}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
-            renderNode={this.renderNode}
-            renderMark={this.renderMark}
+            renderNode={renderNode}
+            renderMark={renderMark}
             spellCheck
             autoFocus
           />
         </div>
+
+        <div className={styles.controlls}>
+          <button type="button" disabled={false} onClick={this.onSave}>
+            Save
+          </button>
+        </div>
+
       </div>
     );
+  }
+
+  createValue = (props) => {
+    const { fullText = '' } = props.value;
+    console.log('fullText', fullText);
+    return html.deserialize(fullText);
   }
 
   onChange = ({ value }) => {
@@ -46,64 +100,29 @@ class NoteEditor extends Component {
   }
 
   onKeyDown = (event, change) => {
-    const { value } = change;
-    let mark;
+    const mark = getMarkFromHotkey(event);
 
-    if (isBoldHotkey(event)) {
-      mark = 'bold';
-    } else if (isItalicHotkey(event)) {
-      mark = 'italic';
-    } else if (isUnderlinedHotkey(event)) {
-      mark = 'underlined';
-    } else if (isCodeHotkey(event)) {
-      mark = 'code';
-    } else {
-      return;
-    }
+    if (!mark) return;
 
     event.preventDefault();
     change.toggleMark(mark);
     return true;
   }
 
-  renderNode = (props) => {
-    const { attributes, children, node } = props;
-    switch (node.type) {
-      case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>;
-      case 'bulleted-list':
-        return <ul {...attributes}>{children}</ul>;
-      case 'h1':
-        return <h1 {...attributes}>{children}</h1>;
-      case 'h2':
-        return <h2 {...attributes}>{children}</h2>;
-      case 'h3':
-        return <h3 {...attributes}>{children}</h3>;
-      case 'h4':
-        return <h4 {...attributes}>{children}</h4>;
-      case 'h5':
-        return <h5 {...attributes}>{children}</h5>;
-      case 'list-item':
-        return <li {...attributes}>{children}</li>;
-      case 'numbered-list':
-        return <ol {...attributes}>{children}</ol>;
-    }
-  }
+  onSave = () => {
+    const { submitHandler } = this.props;
+    const value = this.state.value.toJSON();
+    const title = getTtile(value);
+    const preview = getPreview(value);
+    const fullText = html.serialize(this.state.value);
+    console.log(fullText);
 
-  renderMark = (props) => {
-    const { children, mark, attributes } = props;
-    switch (mark.type) {
-      case 'bold':
-        return <b {...attributes}>{children}</b>;
-      case 'code':
-        return <code {...attributes}>{children}</code>;
-      case 'italic':
-        return <i {...attributes}>{children}</i>;
-      case 'underlined':
-        return <span className={commonStyle.underlined} {...attributes}>{children}</span>;
-      case 'strike':
-        return <span className={commonStyle.strike} {...attributes}>{children}</span>;
-    }
+    submitHandler({
+      ...this.props.value,
+      title,
+      preview,
+      fullText,
+    });
   }
 }
 

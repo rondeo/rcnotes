@@ -8,6 +8,7 @@ module.exports = {
         "import/resolver": "webpack",
     },
     rules: {
+        "no-plusplus": 0,
         "import/extensions": false,
         "array-callback-return": 0,
         "default-case": 0,
@@ -19,6 +20,10 @@ module.exports = {
         }],
         "react/sort-comp": [1, {
             order: [
+                'constructor',
+                'state',
+                'instance-variables',
+                'static-variables',
                 'static-methods',
                 'lifecycle',
                 'render',

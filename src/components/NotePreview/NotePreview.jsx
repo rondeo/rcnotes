@@ -11,7 +11,7 @@ type ItemProps = {
   id: number,
   title: string,
   editingDate: number,
-  text: string,
+  preview: string,
 }
 
 type Props = {
@@ -44,7 +44,7 @@ const NotePreview = ({
       <TextTruncate
         line={2}
         truncateText="…"
-        text={item.text}
+        text={item.preview}
         className={styles.preview}
       />
     </NavLink>

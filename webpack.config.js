@@ -2,7 +2,8 @@ const path = require('path');
 
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: ['./src/index.js', './src/styles/main.styl'],
@@ -60,14 +61,23 @@ module.exports = {
           loader: 'svg-react-loader',
         },
       },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+            context: './src',
+          },
+        },
+      },
     ],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: ['src', 'node_modules'],
-    plugins: [
-      new DirectoryNamedWebpackPlugin(true),
-    ],
+    plugins: [new ComponentDirectoryPlugin()],
   },
   plugins: [
     new HtmlWebPackPlugin({
@@ -77,6 +87,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
+    }),
+    new CleanPlugin(['dist/'], {
+      verbose: true,
+      dry: false,
     }),
   ],
 

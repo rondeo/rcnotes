@@ -3,16 +3,18 @@ import React from 'react';
 import { Form, Field } from 'react-final-form';
 import cx from 'classnames';
 
+import NoteEditor from 'components/NoteEditor';
+
 import commonStyles from 'styles/main.styl';
 import styles from './note-inner.styl';
 
-const NoteInner = ({ submitHandler, initialValues }: Props) => (
+const NoteInner = ({ submitHandler, initialValues }) => (
   <Form
     initialValues={initialValues}
     onSubmit={submitHandler}
     validate={() => true}
     render={({ handleSubmit, pristine, invalid }) => (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.wrapper}>
         <div className={cx(commonStyles.h1, commonStyles.tag, commonStyles.tag_h1)}>
           <Field
             name="title"
@@ -23,9 +25,12 @@ const NoteInner = ({ submitHandler, initialValues }: Props) => (
           />
         </div>
         <Field name="text" component="textarea" placeholder="text" />
-        <button type="submit" disabled={pristine || invalid}>
-          Save
-        </button>
+        <NoteEditor />
+        <div className={styles.controlls}>
+          <button type="submit" disabled={pristine || invalid}>
+            Save
+          </button>
+        </div>
       </form>
     )}
   />

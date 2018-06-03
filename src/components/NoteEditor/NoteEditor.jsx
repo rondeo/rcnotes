@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import { Block, Value } from 'slate';
@@ -5,7 +6,8 @@ import Html from 'slate-html-serializer';
 import Plain from 'slate-plain-serializer';
 import { CHILD_REQUIRED, CHILD_TYPE_INVALID } from 'slate-schema-violations';
 
-import EditorToolbar from 'components/EditorToolbar';
+import Toolbar from 'components/NoteEditor/Toolbar';
+import ControllPanel from 'components/NoteEditor/ControllPanel';
 
 import {
   rules,
@@ -26,6 +28,7 @@ class NoteEditor extends Component {
 
     this.state = {
       value: this.createValue(props),
+      showToolbar: false,
     };
   }
 
@@ -60,16 +63,16 @@ class NoteEditor extends Component {
   }
 
   render() {
+    const { value, showToolbar } = this.state;
     const { placeholder } = this.props;
 
     return (
       <div>
-        <EditorToolbar value={this.state.value} changeHandler={this.onChange} />
         <div className={styles.editor}>
           <Editor
             schema={this.schema}
             placeholder={placeholder}
-            value={this.state.value}
+            value={value}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             renderNode={renderNode}
@@ -78,20 +81,24 @@ class NoteEditor extends Component {
             autoFocus
           />
         </div>
-
-        <div className={styles.controlls}>
-          <button type="button" disabled={false} onClick={this.onSave}>
-            Save
-          </button>
-        </div>
-
+        {showToolbar &&
+          <Toolbar
+            value={this.state.value}
+            changeHandler={this.onChange}
+          />
+        }
+        <ControllPanel
+          onClick={this.onSave}
+          onDelete={() => null}
+          toggleToolbar={this.toggleToolbar}
+          openedToolbar={showToolbar}
+        />
       </div>
     );
   }
 
   createValue = (props) => {
     const { fullText = '' } = props.value;
-    console.log('fullText', fullText);
     return html.deserialize(fullText);
   }
 
@@ -123,6 +130,12 @@ class NoteEditor extends Component {
       preview,
       fullText,
     });
+  }
+
+  toggleToolbar = () => {
+    this.setState(prevState => ({
+      showToolbar: !prevState.showToolbar,
+    }));
   }
 }
 

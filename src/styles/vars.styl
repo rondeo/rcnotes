@@ -8,5 +8,19 @@ $bg = #fff
 $lightColor = #fefefe
 $textColor = #3c3c3c
 $subText = #a1a0a0
-$baseSize = 15px
-$smallSize = 12px
+$baseFont = 15px
+$smallFont = 12px
+
+$deskSize = 1024px
+$tabletSize = 970px
+$mobileSize = 560px
+$smallSize = 420px
+
+$desk = s("only screen and (max-width: %s)", $deskSize)
+$more-desk = s("only screen and (min-width: %s)", $deskSize + 1)
+$tablet = s("only screen and (max-width: %s)", $tabletSize)
+$more-tablet = s("only screen and (min-width: %s)", $tabletSize + 1)
+$mobile = s("only screen and (max-width: %s)", $mobileSize)
+$more-mobile = s("only screen and (min-width: %s)", $mobileSize + 1)
+$small = s("only screen and (max-width: %s)", $smallSize)
+$more-small = s("only screen and (min-width: %s)", $smallSize + 1)

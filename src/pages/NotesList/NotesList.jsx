@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { notesLoadAction, noteDeleteAction } from 'store/actions';
 import NotePreview from 'components/NotePreview';
-import SearchPanel from 'components/SearchPanel';
+import ListHeader from 'components/ListHeader';
 
 import routes from 'routes';
 
@@ -20,7 +20,7 @@ class NotesList extends PureComponent {
     const { items, location } = this.props;
     return (
       <div className={styles.wrapper}>
-        <SearchPanel className={styles.search} />
+        <ListHeader />
         <div className={styles.list}>
           {routes.new.path === location.pathname && (
             <NotePreview

@@ -6,6 +6,7 @@
 
 .layout
   height 100%
+  position relative
   flex 1 0 auto
   display flex
 
@@ -22,3 +23,7 @@
   background-color $textColor
   display block
   flex 0 0 auto
+  @media $tablet
+    position absolute
+    top 0
+    right 100%

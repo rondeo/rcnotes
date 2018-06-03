@@ -5,7 +5,7 @@ import cx from 'classnames';
 import styles from './icon.styl';
 
 type Props = {
-  type: 'search' | 'new_note',
+  type: string,
   className?: string,
 }
 

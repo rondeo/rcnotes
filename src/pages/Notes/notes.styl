@@ -12,9 +12,21 @@
   flex 0 0 auto
   @media $tablet
     width 35%
+  @media $mobile
+    width 100%
+    min-width 0
+    max-width none
+    border-right none
+  &Hidden
+    @media $mobile
+      display none
+
 
 .detail
   width 100%
   height 100%
   position relative
   flex 0 1 auto
+  &Hidden
+    @media $mobile
+      display none

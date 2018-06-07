@@ -1,5 +1,6 @@
 .wrapper
   height 100%
+  position relative
   display flex
   flex-direction column
 
@@ -7,3 +8,35 @@
   height 100%
   overflow auto
   flex 0 1 auto
+  &Empty
+    display flex
+    align-items center
+
+.empty
+  width 100%
+  color $subText
+  text-align center
+  &Title
+    font-size 18px
+
+.button
+  width 52px
+  height @width
+  overflow hidden
+  color #fff
+  font-size 20px
+  text-decoration none
+  background-color $red
+  border-radius 50%
+  box-shadow 0 2px 5px alpha(#000, 0.3);
+  position absolute
+  bottom 15px
+  right 15px
+  display flex
+  align-items center
+  justify-content center
+  &:hover
+    color #fff
+  &Text
+    position absolute
+    left -1000px

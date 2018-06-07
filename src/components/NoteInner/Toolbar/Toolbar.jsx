@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 
-import DropdownToolbar from 'components/NoteEditor/DropdownToolbar';
-import { MarkButton, BlockButton } from 'components/NoteEditor/ControllButton';
+import DropdownToolbar from 'components/NoteInner/DropdownToolbar';
+import { MarkButton, BlockButton } from 'components/NoteInner/ControllButton';
 
 import styles from './toolbar.styl';
 

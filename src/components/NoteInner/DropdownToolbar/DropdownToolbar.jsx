@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import onClickOutside from 'react-onclickoutside';
 
-import { ControllButton } from 'components/NoteEditor/ControllButton';
+import { ControllButton } from 'components/NoteInner/ControllButton';
 
 import styles from './dropdown-toolbar.styl';
 

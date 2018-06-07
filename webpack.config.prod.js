@@ -1,5 +1,6 @@
 const path = require('path');
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ComponentDirectoryPlugin = require('component-directory-webpack-plugin');
@@ -35,14 +36,14 @@ module.exports = {
               modules: true,
               importLoaders: 1,
               minimize: true,
-              sourceMap: true,
+              sourceMap: false,
               localIdentName: '[name]__[local]_[hash:base64:5]',
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: true,
+              sourceMap: false,
             },
           },
           {
@@ -74,6 +75,11 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin(),
+    ],
+  },
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: ['src', 'node_modules'],
@@ -93,9 +99,4 @@ module.exports = {
       dry: false,
     }),
   ],
-
-  devServer: {
-    open: true,
-  },
-
 };

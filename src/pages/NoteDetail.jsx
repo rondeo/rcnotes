@@ -11,7 +11,7 @@ const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
   if (!item) return <NotFoundPage />;
   return (
     <NoteInner
-      initialValues={item}
+      value={item}
       submitHandler={submitHandler}
       deleteHandler={deleteHandler}
     />

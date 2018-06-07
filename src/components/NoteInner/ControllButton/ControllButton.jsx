@@ -11,7 +11,7 @@ const DEFAULT_NODE = 'paragraph';
 export const ControllButton = ({ active, icon, onClick }) => (
   <button
     type="button"
-    className={cx(styles.button, active && styles.button_active)}
+    className={cx(styles.button, active && styles.buttonActive)}
     onMouseDown={onClick}
   >
     <Icon type={icon} />

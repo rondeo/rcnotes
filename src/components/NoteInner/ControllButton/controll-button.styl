@@ -1,47 +1,24 @@
 .button
-  background-color transparent
+  background transparent
   border 1px solid $gray
+  padding 2px
   display inline-block
+  vertical-align middle
   cursor pointer
-  margin-right 5px
-  &:hover,
-  &Active
+  & + &
+    margin-left 5px
+  &:hover
     color $red
-  &:last-child
-    margin-right 0
 
+:global
+  .ql-active
+    color $red
 
 .color
   width 24px
   height 24px
+  background-color #000
   border 1px solid #fff
   border-radius 3px
   display inline-block
   vertical-align middle
-  & + &
-    margin-left 5px
-  &.color,
-  &.fill
-    &_red
-      background-color #ce0d07
-    &_pink
-      background-color #f8a2b0
-    &_orange
-      background-color #fa8008
-    &_yellow
-      background-color #ffb74c
-    &_green
-      background-color #60892f
-    &_light-blue
-      background-color #6db8bb
-    &_blue
-      background-color #05647a
-    &_purple
-      background-color #9b57c1
-    &_black
-      background-color #000
-    &_gray
-      background-color #c4c4c4
-    &_white
-      background-color #fff
-      border-color #000

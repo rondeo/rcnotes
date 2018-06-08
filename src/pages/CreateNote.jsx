@@ -3,10 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { noteAddAction } from 'store/actions';
 
-import NoteEditor from 'components/NoteInner';
+import NoteInner from 'components/NoteInner';
 
 const CreateNote = ({ submitHandler }) => (
-  <NoteEditor submitHandler={submitHandler} value={{}} />
+  <NoteInner submitHandler={submitHandler} value={{}} />
 );
 
 const mapDispatchToProps = dispatch => ({

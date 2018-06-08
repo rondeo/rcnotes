@@ -1,5 +1,75 @@
 .editor
   height 100%
-  &Content
+  overflow auto
+  border 1px solid $gray
+  p
+    margin-top 0
+    margin-bottom 0
+  ul,
+  ol
+    list-style none
+    & > li
+      position relative
+      &:before
+        color $red
+        position absolute
+        top 0
+        left -5px
+        transform translateX(-100%)
+  ol
+    counter-reset ulcounter
+    & > li
+      &:before
+        content counter(ulcounter) '.'
+        counter-increment ulcounter
+        top 10px
+  ul
+    & > li
+      &:before
+        content ''
+        width 5px
+        height 5px
+        background-color $red
+        border-radius 50%
+
+  [data-checked]
+    pointer-events none
+    & + [data-checked]
+      margin-top -15px
+    & > li
+      &:before
+        content ''
+        pointer-events all
+        width 20px
+        height 20px
+        background-color transparent
+        border 1px solid $gray
+        border-radius 3px
+        display block
+      & + li
+        margin-top 5px
+  [data-checked=true]
+    & > li:before
+      background-color $red
+
+:global
+  .ql-editor
     height 100%
     padding 33px 50px 40px 35px
+  .ql-tooltip
+    display none
+  .ql-clipboard
+    left -100000px
+    height 1px
+    overflow-y hidden
+    position absolute
+    top 50%
+  .ql-editor.ql-blank::before
+    color rgba(0,0,0,0.6)
+    content attr(data-placeholder)
+    font-style italic
+    pointer-events none
+    position absolute
+  for num in (1..10)
+    .ql-indent-{num}
+      margin-left num * 30px

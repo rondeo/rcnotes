@@ -61,21 +61,12 @@ strike,
 
 blockquote
   position relative
-  &:before,
-  &:after
-    font-family "Times New Roman"
-    color #bdbdbd
-    font-size 3em
-    line-height 0.1em
-    vertical-align -.45em
-    display inline-block
-
-  &:before
-    content "\201C"
-    margin-right 5px
-  &:after
-    content "\201D"
-    margin-left 5px
+  border-left 4px solid $red
+  padding-left 15px
+  margin-top 20px
+  margin-bottom 20px
+  & + &
+    margin-top -20px
 
 code,
 pre
@@ -92,12 +83,13 @@ pre
   padding 16px
   overflow auto
   line-height 1.45
+  margin-top 20px
+  margin-bottom 20px
 
 a
   text-decoration underline
   &:hover
     color $red
-
 
 .tag
   position relative

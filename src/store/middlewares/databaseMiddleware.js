@@ -12,6 +12,8 @@ import {
   FAIL,
 } from '../constants';
 
+const PREVIEW_LENGTH = 100;
+
 export default store => next => (action) => {
   const { type, payload } = action;
 
@@ -65,8 +67,14 @@ export default store => next => (action) => {
       return;
     }
     case NOTE_ADD: {
-      const { table, ...rest } = action.payload;
-      const noteData = { ...rest, creationDate: +new Date(), editingDate: +new Date() };
+      let { table, title, preview, ...rest } = action.payload;
+      if (!title.length || title === ' ') {
+        title = preview.split('\n')[0];
+      }
+      preview = preview.replace(/\n/ig, ' ').slice(0, PREVIEW_LENGTH);
+
+      const noteData = { ...rest, title, preview, creationDate: +new Date(), editingDate: +new Date() };
+
       db
         .addItem(table, { ...noteData })
         .then((noteId) => {

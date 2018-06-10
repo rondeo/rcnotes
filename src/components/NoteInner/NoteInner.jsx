@@ -9,7 +9,6 @@ import styles from './note-inner.styl';
 
 class NoteInner extends Component {
   state = {
-    value: '',
     showToolbar: true,
   };
 
@@ -19,39 +18,38 @@ class NoteInner extends Component {
       {
         modules: {
           toolbar: {
-            container: "#toolbar"
+            container: "#toolbar",
           },
           clipboard: {
-            matchVisual: false
+            matchVisual: false,
           },
         },
         placeholder: 'Compose an epic...',
         theme: 'snow',
       }
     );
+
+    this.editor.on('text-change', this.onChange);
+    this.setValue(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.value.id === nextProps.value.id) return;
-    this.setState({
-      value: '',
-    });
+    if (this.props.value && this.props.value.id === nextProps.value.id) return;
+    this.setValue(nextProps);
   }
 
   render() {
     const { value, showToolbar } = this.state;
     const { placeholder } = this.props;
-
     return (
       <Fragment>
         <Toolbar id="toolbar" open={showToolbar} />
         <div
-          id="editor"
           className={styles.editor}
           ref={(el) => this.editorElement = el}
         />
         <ControllPanel
-          onClick={this.onSave}
+          onSave={this.onSave}
           onDelete={() => null}
           toggleToolbar={this.toggleToolbar}
           openedToolbar={showToolbar}
@@ -60,27 +58,26 @@ class NoteInner extends Component {
     );
   }
 
-  onChange = ({ value }) => {
-    this.setState({ value });
-  }
+  onChange = (delta, oldDelta, source) => {
+    if (source === 'api') return;
+    const secondLineIndex = this.editor.getLine(0)[0].cache.length;
+    const secondLineFormat = this.editor.getFormat(secondLineIndex);
 
-  onKeyDown = (event, change) => {
-    const mark = getMarkFromHotkey(event);
-
-    if (!mark) return;
-
-    event.preventDefault();
-    change.toggleMark(mark);
-    return true;
+    if (this.editor.getFormat(0).header !== 1) {
+      this.editor.formatLine(0, 'header', 1);
+    }
+    if (secondLineFormat.header === 1) {
+      this.editor.formatLine(secondLineIndex, 'header', 0);
+    }
   }
 
   onSave = () => {
+    const data = this.editor.root;
     const { submitHandler } = this.props;
-    const value = this.state.value.toJSON();
-    const title = getTtile(value);
-    const preview = getPreview(value);
-    const fullText = html.serialize(this.state.value);
-    console.log(fullText);
+
+    const title = this.getTitle();
+    const preview = this.getPreview();
+    const fullText = data.innerHTML;
 
     submitHandler({
       ...this.props.value,
@@ -88,6 +85,25 @@ class NoteInner extends Component {
       preview,
       fullText,
     });
+  }
+
+  setValue = (props) => {
+    const {value} = props;
+    let text;
+    if (value) text = value.fullText;
+    else text = '<h1><br/></h1>';
+
+    this.editor.root.innerHTML = text;
+  }
+
+  getTitle = () => {
+    return this.editor.getLine(0)[0].domNode.innerText.trim();
+  }
+
+  getPreview = () => {
+    const title = this.getTitle();
+    let preview = this.editor.root.innerText;
+    return preview.slice(title.length).trim();
   }
 
   toggleToolbar = () => {

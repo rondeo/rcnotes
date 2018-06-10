@@ -10,7 +10,7 @@ import ListHeader from 'components/ListHeader';
 import Icon from 'components/Icon';
 
 import routes from 'routes';
-import {getRandomPlaceholder} from './utils';
+import { getRandomPlaceholder } from './utils';
 
 import styles from './notes-list.styl';
 
@@ -31,7 +31,6 @@ class NotesList extends PureComponent {
         <div className={cx(styles.list, showEmptyMessage && styles.listEmpty)}>
           {isNewNotePage && (
             <NotePreview
-              link={routes.new.path}
               item={{
                 title: randomEmptyNote.title,
                 preview: randomEmptyNote.text,
@@ -74,4 +73,6 @@ class NotesList extends PureComponent {
   };
 }
 
-export default withRouter(connect(({ notes }) => ({ items: notes.items }))(NotesList));
+const mapStateToProps = ({ notes }) => ({ items: notes.items });
+
+export default withRouter(connect(mapStateToProps)(NotesList));

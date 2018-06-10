@@ -24,34 +24,41 @@ type Props = {
 
 const NotePreview = ({
   link, item, active, noteless, deleteHandler,
-}: Props) => (
-  <article className={cx(styles.wrapper, active && styles.link_active)} >
-    <NavLink
-      to={link}
-      exact
-      className={styles.link}
-      activeClassName={styles.link_active}
-    >
-      <div className={styles.date}>
-        {format(new Date(item.editingDate), 'DD.MM.YYYY')}
+}: Props) => {
+  const Wrapper = !!link ? NavLink : 'div';
+  const wrapperProps = !!link && {
+    to: link,
+    exact: true,
+    activeClassName: styles.link_active,
+  };
+
+  return (
+    <article className={cx(styles.wrapper, active && styles.link_active)} >
+      <Wrapper
+        {...wrapperProps}
+        className={styles.link}
+      >
+        <div className={styles.date}>
+          {format(new Date(item.editingDate), 'DD.MM.YYYY')}
+        </div>
+        <TextTruncate
+          line={2}
+          truncateText="…"
+          text={item.title}
+          className={cx(styles.title, noteless && styles.title_noteless)}
+        />
+        <TextTruncate
+          line={2}
+          truncateText="…"
+          text={item.preview}
+          className={styles.preview}
+        />
+      </Wrapper>
+      <div className={styles.underside}>
+        <button type="button" onClick={deleteHandler}>delete</button>
       </div>
-      <TextTruncate
-        line={2}
-        truncateText="…"
-        text={item.title}
-        className={cx(styles.title, noteless && styles.title_noteless)}
-      />
-      <TextTruncate
-        line={2}
-        truncateText="…"
-        text={item.preview}
-        className={styles.preview}
-      />
-    </NavLink>
-    <div className={styles.underside}>
-      <button type="button" onClick={deleteHandler}>delete</button>
-    </div>
-  </article>
-);
+    </article>
+  );
+};
 
 export default NotePreview;

@@ -5,11 +5,26 @@ import Quill from 'quill';
 import Toolbar from 'components/NoteInner/Toolbar';
 import ControllPanel from 'components/NoteInner/ControllPanel';
 
+import type {NoteType} from 'types';
 import styles from './note-inner.styl';
 
-class NoteInner extends Component {
+type Props = {
+  value: NoteType,
+  titlePlaceholder: string,
+  textPlaceholder: string,
+};
+
+type State = {
+  showToolbar: boolean,
+  showTitlePlaceholder: boolean,
+  showTextPlaceholder: boolean,
+};
+
+class NoteInner extends Component<Props, State> {
   state = {
     showToolbar: true,
+    showTitlePlaceholder: !this.value || !this.value.id,
+    showTextPlaceholder: !this.value || !this.value.preview,
   };
 
   componentDidMount() {
@@ -24,7 +39,6 @@ class NoteInner extends Component {
             matchVisual: false,
           },
         },
-        placeholder: 'Compose an epic...',
         theme: 'snow',
       }
     );
@@ -39,14 +53,19 @@ class NoteInner extends Component {
   }
 
   render() {
-    const { value, showToolbar } = this.state;
-    const { placeholder } = this.props;
+    const { value, showToolbar, showTitlePlaceholder, showTextPlaceholder } = this.state;
+    const { titlePlaceholder, textPlaceholder } = this.props;
     return (
       <Fragment>
-        <Toolbar id="toolbar" open={showToolbar} />
         <div
-          className={styles.editor}
+          className={cx(
+            styles.editor,
+            showTitlePlaceholder && styles.editorTitlePlaceholder,
+            showTextPlaceholder && styles.editorTextPlaceholder,
+          )}
           ref={(el) => this.editorElement = el}
+          data-placeholder-title={titlePlaceholder}
+          data-placeholder-text={textPlaceholder}
         />
         <ControllPanel
           onSave={this.onSave}
@@ -54,6 +73,7 @@ class NoteInner extends Component {
           toggleToolbar={this.toggleToolbar}
           openedToolbar={showToolbar}
         />
+        <Toolbar id="toolbar" open={showToolbar} />
       </Fragment>
     );
   }
@@ -62,6 +82,9 @@ class NoteInner extends Component {
     if (source === 'api') return;
     const secondLineIndex = this.editor.getLine(0)[0].cache.length;
     const secondLineFormat = this.editor.getFormat(secondLineIndex);
+    const title = this.getTitle();
+    const preview = this.getPreview();
+    const { showTitlePlaceholder, showTextPlaceholder } = this.state;
 
     if (this.editor.getFormat(0).header !== 1) {
       this.editor.formatLine(0, 'header', 1);
@@ -69,6 +92,12 @@ class NoteInner extends Component {
     if (secondLineFormat.header === 1) {
       this.editor.formatLine(secondLineIndex, 'header', 0);
     }
+
+    if (!title || title === ' ') this.setState({showTitlePlaceholder: true})
+    else this.setState({showTitlePlaceholder: false})
+
+    if (!preview) this.setState({showTextPlaceholder: true})
+    else this.setState({showTextPlaceholder: false})
   }
 
   onSave = () => {

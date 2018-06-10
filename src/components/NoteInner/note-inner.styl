@@ -2,6 +2,27 @@
   height 100%
   overflow auto
   border 1px solid $gray
+  position relative
+  &:before,
+  &:after
+    color $gray-dark
+    position absolute
+    left 35px
+    z-index -1
+
+  &TitlePlaceholder
+    &:before
+      content attr(data-placeholder-title)
+      font-size $font-large
+      top 33px
+
+  &TextPlaceholder
+    &:after
+      content attr(data-placeholder-text)
+      top 90px
+
+  h1
+    min-height 1.4em
   p
     margin-top 0
     margin-bottom 0

@@ -28,42 +28,45 @@ Object.keys(icons).map(objectKey => icons[objectKey] = false);
 
 type Props = {
   open: boolean,
+  id: string,
 }
 
-const EditorToolbar = ({ open }) => (
-  <div className={cx(styles.wrapper, open && styles.wrapperOpen)} id="toolbar">
-    <ControllButton type="bold" icon="format_bold" />
-    <ControllButton type="italic" icon="format_italic" />
-    <ControllButton type="underline" icon="format_underlined" />
-    <ControllButton type="strike" icon="format_strikethrough"/>
+const EditorToolbar = ({ open, id }) => (
+  <div className={cx(styles.toolbar, open && styles.toolbarOpen)} id={id}>
+    <div className={styles.toolbarContainer} >
+      <ControllButton type="bold" icon="format_bold" />
+      <ControllButton type="italic" icon="format_italic" />
+      <ControllButton type="underline" icon="format_underlined" />
+      <ControllButton type="strike" icon="format_strikethrough"/>
 
-    <DropdownToolbar type="header" icon="text_fields" title="Font size">
-      {HEADRS.map((item, index) => (
-        <ControllButton type="header" value={item} icon="text_fields" key={index} />
-      ))}
-    </DropdownToolbar>
+      <DropdownToolbar type="header" icon="text_fields" title="Font size">
+        {HEADRS.map((item, index) => (
+          <ControllButton type="header" value={item} icon="text_fields" key={index} />
+        ))}
+      </DropdownToolbar>
 
-    <DropdownToolbar type="color" icon="format_color_text" title="Text color">
-      {Object.values(COLORS).map(key => (
-        <ControllButton type="color" value={key} color key={key} />
-      ))}
-    </DropdownToolbar>
+      <DropdownToolbar type="color" icon="format_color_text" title="Text color">
+        {Object.values(COLORS).map(key => (
+          <ControllButton type="color" value={key} color key={key} />
+        ))}
+      </DropdownToolbar>
 
-    <DropdownToolbar type="background" icon="format_color_fill" title="Text fill color">
-      {Object.values(COLORS).map(key => (
-        <ControllButton type="background" value={key} color key={key} />
-      ))}
-    </DropdownToolbar>
+      <DropdownToolbar type="background" icon="format_color_fill" title="Text fill color">
+        {Object.values(COLORS).map(key => (
+          <ControllButton type="background" value={key} color key={key} />
+        ))}
+      </DropdownToolbar>
 
-    <ControllButton type="blockquote" icon="format_quote" />
-    <ControllButton type="code" icon="code" />
-    <ControllButton type="code-block" icon="settings_ethernet" />
-    <ControllButton type="list" value="ordered" icon="format_list_numbered" />
-    <ControllButton type="list" value="bullet" icon="format_list_bulleted" />
-    <ControllButton type="indent" value="-1" icon="format_indent_decrease" />
-    <ControllButton type="indent" value="+1" icon="format_indent_increase" />
+      <ControllButton type="blockquote" icon="format_quote" />
+      <ControllButton type="code" icon="code" />
+      <ControllButton type="code-block" icon="settings_ethernet" />
+      <ControllButton type="list" value="ordered" icon="format_list_numbered" />
+      <ControllButton type="list" value="bullet" icon="format_list_bulleted" />
+      <ControllButton type="indent" value="-1" icon="format_indent_decrease" />
+      <ControllButton type="indent" value="+1" icon="format_indent_increase" />
 
-    <ControllButton type="clean" icon="format_clear" />
+      <ControllButton type="clean" icon="format_clear" />
+    </div>
   </div>
 );
 

@@ -6,21 +6,24 @@ import logger from './middlewares/loggerMiddleware';
 import database from './middlewares/databaseMiddleware';
 import history from './history';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
   }) : compose;
 /* eslint-enable */
 
-const middlewares = composeEnhancers(applyMiddleware(
+const middlewares = [
   database,
   routerMiddleware(history),
-  logger,
-));
+];
+
+if (!isProduction) middlewares.push(logger);
 
 const store = createStore(
   reducer,
-  middlewares,
+  composeEnhancers(applyMiddleware(...middlewares)),
 );
 window.store = store;
 

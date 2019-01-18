@@ -7,11 +7,14 @@ import {
   START,
   SUCCESS,
   FAIL,
+  NOTE_PLACEHOLDER,
 } from 'store/constants';
 
 const defaultState = {
   items: [],
   isLoading: false,
+  titlePlaceholder: '',
+  textPlaceholder: '',
 };
 
 export default (state = defaultState, action) => {
@@ -63,6 +66,10 @@ export default (state = defaultState, action) => {
     case NOTE_DELETE: {
       newState.items = state.items.filter(el => el.id !== action.payload.id);
       break;
+    }
+    case NOTE_PLACEHOLDER: {
+      newState.titlePlaceholder = action.payload.titlePlaceholder;
+      newState.textPlaceholder = action.payload.textPlaceholder;
     }
   }
 

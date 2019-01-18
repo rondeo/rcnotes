@@ -40,7 +40,7 @@ class NoteInner extends Component<Props, State> {
           },
         },
         theme: 'snow',
-      }
+      },
     );
 
     this.editor.on('text-change', this.onChange);
@@ -53,7 +53,9 @@ class NoteInner extends Component<Props, State> {
   }
 
   render() {
-    const { value, showToolbar, showTitlePlaceholder, showTextPlaceholder } = this.state;
+    const {
+      showToolbar, showTitlePlaceholder, showTextPlaceholder,
+    } = this.state;
     const { titlePlaceholder, textPlaceholder } = this.props;
     return (
       <Fragment>
@@ -63,7 +65,7 @@ class NoteInner extends Component<Props, State> {
             showTitlePlaceholder && styles.editorTitlePlaceholder,
             showTextPlaceholder && styles.editorTextPlaceholder,
           )}
-          ref={(el) => this.editorElement = el}
+          ref={el => this.editorElement = el}
           data-placeholder-title={titlePlaceholder}
           data-placeholder-text={textPlaceholder}
         />
@@ -93,11 +95,10 @@ class NoteInner extends Component<Props, State> {
       this.editor.formatLine(secondLineIndex, 'header', 0);
     }
 
-    if (!title || title === ' ') this.setState({showTitlePlaceholder: true})
-    else this.setState({showTitlePlaceholder: false})
-
-    if (!preview) this.setState({showTextPlaceholder: true})
-    else this.setState({showTextPlaceholder: false})
+    this.setState({
+      showTextPlaceholder: !preview,
+      showTitlePlaceholder: !title || title === ' ' || title === '\n',
+    });
   }
 
   onSave = () => {
@@ -117,21 +118,19 @@ class NoteInner extends Component<Props, State> {
   }
 
   setValue = (props) => {
-    const {value} = props;
+    const { value } = props;
     let text;
-    if (value) text = value.fullText;
+    if (value.fullText) text = value.fullText;
     else text = '<h1><br/></h1>';
 
     this.editor.root.innerHTML = text;
   }
 
-  getTitle = () => {
-    return this.editor.getLine(0)[0].domNode.innerText.trim();
-  }
+  getTitle = () => this.editor.getLine(0)[0].domNode.innerText;
 
   getPreview = () => {
     const title = this.getTitle();
-    let preview = this.editor.root.innerText;
+    const preview = this.editor.root.innerText;
     return preview.slice(title.length).trim();
   }
 

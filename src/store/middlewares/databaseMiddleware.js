@@ -73,7 +73,13 @@ export default store => next => (action) => {
       }
       preview = preview.replace(/\n/ig, ' ').slice(0, PREVIEW_LENGTH);
 
-      const noteData = { ...rest, title, preview, creationDate: +new Date(), editingDate: +new Date() };
+      const noteData = {
+        ...rest,
+        title,
+        preview,
+        creationDate: +new Date(),
+        editingDate: +new Date(),
+      };
 
       db
         .addItem(table, { ...noteData })

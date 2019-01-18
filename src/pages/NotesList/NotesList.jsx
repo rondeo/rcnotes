@@ -10,20 +10,18 @@ import ListHeader from 'components/ListHeader';
 import Icon from 'components/Icon';
 
 import routes from 'routes';
-import { getRandomPlaceholder } from './utils';
 
 import styles from './notes-list.styl';
 
 class NotesList extends PureComponent {
   componentDidMount() {
-    this.props.dispatch(notesLoadAction());
+    this.props.onLoad();
   }
 
   render() {
-    const { items, location } = this.props;
+    const { items, location, titlePlaceholder, textPlaceholder } = this.props;
     const isNewNotePage = routes.new.path === location.pathname;
     const showEmptyMessage = !items.length && !isNewNotePage;
-    const randomEmptyNote = getRandomPlaceholder();
 
     return (
       <div className={styles.wrapper}>
@@ -32,8 +30,8 @@ class NotesList extends PureComponent {
           {isNewNotePage && (
             <NotePreview
               item={{
-                title: randomEmptyNote.title,
-                preview: randomEmptyNote.text,
+                title: titlePlaceholder,
+                preview: textPlaceholder,
                 editingDate: new Date(),
               }}
               noteless
@@ -69,10 +67,23 @@ class NotesList extends PureComponent {
   }
 
   deleteHandler = (id) => {
-    this.props.dispatch(noteDeleteAction(id));
+    this.props.onDelete(id);
   };
 }
 
-const mapStateToProps = ({ notes }) => ({ items: notes.items });
+const mapStateToProps = ({notes: {
+  items,
+  titlePlaceholder,
+  textPlaceholder,
+}}) => ({
+  items,
+  titlePlaceholder,
+  textPlaceholder,
+});
 
-export default withRouter(connect(mapStateToProps)(NotesList));
+const mapDispatchToProps = dispatch => ({
+  onLoad: () => dispatch(notesLoadAction()),
+  onDelete: id => dispatch(noteDeleteAction(id)),
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NotesList));

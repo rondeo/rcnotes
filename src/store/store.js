@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 
 import reducer from './reducers';
+import customRouterMiddleware from './middlewares/routerMiddleware';
 import logger from './middlewares/loggerMiddleware';
 import database from './middlewares/databaseMiddleware';
 import history from './history';
@@ -16,6 +17,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
 
 const middlewares = [
   database,
+  customRouterMiddleware,
   routerMiddleware(history),
 ];
 

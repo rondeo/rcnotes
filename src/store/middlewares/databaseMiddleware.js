@@ -1,12 +1,16 @@
 import { push } from 'react-router-redux';
 import db from 'database';
 import routes from 'routes';
+import { readFile, downloadFile } from 'utils';
+import { notesLoadAction } from 'store/actions';
 import {
   NOTE_LOAD,
   NOTES_LOAD,
   NOTE_ADD,
   NOTE_EDIT,
   NOTE_DELETE,
+  NOTE_EXPORT,
+  NOTE_IMPORT,
   START,
   SUCCESS,
   FAIL,
@@ -133,6 +137,33 @@ export default store => next => (action) => {
           store.dispatch(push(routes.list.path));
         })
         .catch(error => errorAction(error));
+      return;
+    }
+    case NOTE_IMPORT: {
+      next({
+        ...action,
+      });
+      const { file, table } = action.payload;
+      readFile(file)
+        .then((data) => {
+          db
+            .addItems(table, JSON.parse(data))
+            .then(() => {
+              store.dispatch(notesLoadAction());
+            })
+            .catch(error => errorAction(error));
+        });
+      return;
+    }
+    case NOTE_EXPORT: {
+      db
+        .getItems(payload.table)
+        .then((notes) => {
+          const data = JSON.stringify(notes);
+          downloadFile(data, 'rcnotes.json', 'application/json');
+        })
+        .catch(error => errorAction(error));
+      return;
     }
     default: {
       next(action);

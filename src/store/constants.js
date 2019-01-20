@@ -6,7 +6,10 @@ export const NOTE_ADD = '@@notes/ADD';
 export const NOTE_EDIT = '@@notes/EDIT';
 export const NOTE_DELETE = '@@notes/DELETE';
 export const NOTE_PLACEHOLDER = '@@notes/NOTE_PLACEHOLDER';
+export const NOTE_EXPORT = '@@notes/NOTE_EXPORT';
+export const NOTE_IMPORT = '@@notes/NOTE_IMPORT';
 
+export const ERROR = '@@common/ERROR';
 export const START = '_START';
 export const SUCCESS = '_SUCCESS';
 export const FAIL = '_FAIL';

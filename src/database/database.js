@@ -65,6 +65,17 @@ class IndexedDBApi {
       });
   }
 
+  addItems(table, data: Array<*>) {
+    return this.getDatabase(table)
+      .then(() => {
+        const promises = [];
+        for (const item of data) {
+          promises.push(this.addItem(table, item));
+        }
+        Promise.all(promises);
+      });
+  }
+
   getItems(table) {
     return this.getDatabase(table)
       .then(() => {

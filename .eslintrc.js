@@ -13,6 +13,7 @@ module.exports = {
         "array-callback-return": 0,
         "default-case": 0,
         "no-return-assign": 0,
+        "no-restricted-syntax": 0,
 
         // react
         "jsx-a11y/anchor-is-valid": [ "error", {

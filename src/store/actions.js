@@ -5,6 +5,9 @@ import {
   NOTE_ADD,
   NOTE_EDIT,
   NOTE_DELETE,
+  NOTE_EXPORT,
+  NOTE_IMPORT,
+  ERROR,
 } from './constants';
 
 export function singleNoteLoadAction(id) {
@@ -53,6 +56,34 @@ export function noteDeleteAction(id) {
     payload: {
       id,
       table: 'notes',
+    },
+  };
+}
+
+export function noteImportAction(file: string) {
+  return {
+    type: NOTE_IMPORT,
+    payload: {
+      table: 'notes',
+      file,
+    },
+  };
+}
+
+export function noteExportAction() {
+  return {
+    type: NOTE_EXPORT,
+    payload: {
+      table: 'notes',
+    },
+  };
+}
+
+export function exceptionAction(err) {
+  return {
+    type: ERROR,
+    payload: {
+      error: err,
     },
   };
 }

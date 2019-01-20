@@ -71,11 +71,13 @@ class NotesList extends PureComponent {
   };
 }
 
-const mapStateToProps = ({notes: {
-  items,
-  titlePlaceholder,
-  textPlaceholder,
-}}) => ({
+const mapStateToProps = ({
+  notes: {
+    items,
+    titlePlaceholder,
+    textPlaceholder,
+  },
+}) => ({
   items,
   titlePlaceholder,
   textPlaceholder,

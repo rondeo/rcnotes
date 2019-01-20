@@ -5,13 +5,14 @@ import Quill from 'quill';
 import Toolbar from 'components/NoteInner/Toolbar';
 import ControllPanel from 'components/NoteInner/ControllPanel';
 
-import type {NoteType} from 'types';
+import type { NoteType } from 'types';
 import styles from './note-inner.styl';
 
 type Props = {
   value: NoteType,
   titlePlaceholder: string,
   textPlaceholder: string,
+  deleteHandler: (id: number) => void
 };
 
 type State = {
@@ -33,7 +34,7 @@ class NoteInner extends Component<Props, State> {
       {
         modules: {
           toolbar: {
-            container: "#toolbar",
+            container: '#toolbar',
           },
           clipboard: {
             matchVisual: false,
@@ -56,7 +57,7 @@ class NoteInner extends Component<Props, State> {
     const {
       showToolbar, showTitlePlaceholder, showTextPlaceholder,
     } = this.state;
-    const { titlePlaceholder, textPlaceholder } = this.props;
+    const { titlePlaceholder, textPlaceholder, deleteHandler } = this.props;
     return (
       <Fragment>
         <div
@@ -71,7 +72,7 @@ class NoteInner extends Component<Props, State> {
         />
         <ControllPanel
           onSave={this.onSave}
-          onDelete={() => null}
+          deleteHandler={deleteHandler}
           toggleToolbar={this.toggleToolbar}
           openedToolbar={showToolbar}
         />

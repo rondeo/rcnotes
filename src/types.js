@@ -4,4 +4,4 @@ export type NoteType = {
   title: string,
   preview: string,
   fullText: string,
-}
+};

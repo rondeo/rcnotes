@@ -12,6 +12,7 @@ module.exports = {
         "import/extensions": false,
         "array-callback-return": 0,
         "default-case": 0,
+        "no-return-assign": 0,
 
         // react
         "jsx-a11y/anchor-is-valid": [ "error", {

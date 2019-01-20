@@ -13,7 +13,7 @@ const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
     <NoteInner
       value={item}
       submitHandler={submitHandler}
-      deleteHandler={deleteHandler}
+      deleteHandler={() => deleteHandler(item.id)}
     />
   );
 };

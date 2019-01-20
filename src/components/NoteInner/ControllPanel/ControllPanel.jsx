@@ -5,13 +5,13 @@ import Icon from 'components/Icon';
 import styles from './controll-panel.styl';
 
 const ControllPanel = ({
-  openedToolbar, onSave, onDelete, toggleToolbar,
+  openedToolbar, onSave, deleteHandler, toggleToolbar,
 }) => (
   <div className={styles.wrapper}>
     <button type="button" onClick={onSave} className={styles.button}>
       <Icon type="done" />
     </button>
-    <button type="button" onClick={onDelete} className={styles.button}>
+    <button type="button" onClick={deleteHandler} className={styles.button}>
       <Icon type="delete_outline" />
     </button>
 

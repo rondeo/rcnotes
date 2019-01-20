@@ -6,8 +6,10 @@ import { noteEditAction, noteDeleteAction } from 'store/actions';
 import { noteByIdSelector } from 'store/selectors';
 import NoteInner from 'components/NoteInner';
 import NotFoundPage from 'components/NotFoundPage';
+import Loader from 'components/Loader';
 
-const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
+const NoteDetail = ({ isLoading, item, submitHandler, deleteHandler }) => {
+  if (isLoading) return <Loader absolute />;
   if (!item) return <NotFoundPage />;
   return (
     <NoteInner
@@ -19,6 +21,7 @@ const NoteDetail = ({ item, submitHandler, deleteHandler }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  isLoading: state.notes.isLoading,
   item: noteByIdSelector(state, ownProps),
 });
 

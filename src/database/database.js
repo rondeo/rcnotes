@@ -66,13 +66,33 @@ class IndexedDBApi {
   }
 
   addItems(table, data: Array<*>) {
+    const promises = [];
+    for (const item of data) {
+      promises.push(this.getItem(table, item.id)
+        .then((currentItem) => {
+          if (!currentItem || currentItem.editingDate < item.editingDate) {
+            return this.addItem(table, item);
+          }
+          return Promise.resolve();
+        }));
+    }
+    return Promise.all(promises);
+  }
+
+  getItem(table, id) {
     return this.getDatabase(table)
       .then(() => {
-        const promises = [];
-        for (const item of data) {
-          promises.push(this.addItem(table, item));
-        }
-        Promise.all(promises);
+        const transaction = this.db.transaction(table, 'readonly');
+        const store = transaction.objectStore(table);
+        const objectStoreRequest = store.get(id);
+        return new Promise(((resolve, reject) => {
+          objectStoreRequest.onerror = (event) => {
+            reject(event.target.error);
+          };
+          objectStoreRequest.onsuccess = (event) => {
+            resolve(event.target.result);
+          };
+        }));
       });
   }
 
@@ -116,23 +136,6 @@ class IndexedDBApi {
             reject(event.target.error);
           };
         });
-      });
-  }
-
-  getItem(table, id) {
-    return this.getDatabase(table)
-      .then(() => {
-        const transaction = this.db.transaction(table, 'readonly');
-        const store = transaction.objectStore(table);
-        const objectStoreRequest = store.get(id);
-        return new Promise(((resolve, reject) => {
-          objectStoreRequest.onerror = (event) => {
-            reject(event.target.error);
-          };
-          objectStoreRequest.onsuccess = (event) => {
-            resolve(event.target.result);
-          };
-        }));
       });
   }
 

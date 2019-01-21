@@ -77,12 +77,14 @@ export default store => next => (action) => {
       }
       preview = preview.replace(/\n/ig, ' ').slice(0, PREVIEW_LENGTH);
 
+      const date = +new Date();
       const noteData = {
         ...rest,
+        id: date,
         title,
         preview,
-        creationDate: +new Date(),
-        editingDate: +new Date(),
+        creationDate: date,
+        editingDate: date,
       };
 
       db

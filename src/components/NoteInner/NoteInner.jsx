@@ -17,15 +17,14 @@ type Props = {
 
 type State = {
   showToolbar: boolean,
-  showTitlePlaceholder: boolean,
-  showTextPlaceholder: boolean,
 };
 
 class NoteInner extends Component<Props, State> {
+  titlePlaceholderClass: string = styles.editorTitlePlaceholder;
+  textPlaceholderClass: string = styles.editorTextPlaceholder;
+
   state = {
     showToolbar: true,
-    showTitlePlaceholder: !this.value || !this.value.id,
-    showTextPlaceholder: !this.value || !this.value.preview,
   };
 
   componentDidMount() {
@@ -54,18 +53,12 @@ class NoteInner extends Component<Props, State> {
   }
 
   render() {
-    const {
-      showToolbar, showTitlePlaceholder, showTextPlaceholder,
-    } = this.state;
+    const { showToolbar } = this.state;
     const { titlePlaceholder, textPlaceholder, deleteHandler } = this.props;
     return (
       <Fragment>
         <div
-          className={cx(
-            styles.editor,
-            showTitlePlaceholder && styles.editorTitlePlaceholder,
-            showTextPlaceholder && styles.editorTextPlaceholder,
-          )}
+          className={styles.editor}
           ref={el => this.editorElement = el}
           data-placeholder-title={titlePlaceholder}
           data-placeholder-text={textPlaceholder}
@@ -82,24 +75,35 @@ class NoteInner extends Component<Props, State> {
   }
 
   onChange = (delta, oldDelta, source) => {
+    const TITLE_LEVEL = 1;
     if (source === 'api') return;
+
+    this.editorElement.classList.remove(this.titlePlaceholderClass);
+    this.editorElement.classList.remove(this.textPlaceholderClass);
+
     const secondLineIndex = this.editor.getLine(0)[0].cache.length;
     const secondLineFormat = this.editor.getFormat(secondLineIndex);
-    const title = this.getTitle();
-    const preview = this.getPreview();
-    const { showTitlePlaceholder, showTextPlaceholder } = this.state;
 
-    if (this.editor.getFormat(0).header !== 1) {
-      this.editor.formatLine(0, 'header', 1);
+    if (this.editor.getFormat(0).header !== TITLE_LEVEL) {
+      this.editor.formatLine(0, 'header', TITLE_LEVEL);
     }
-    if (secondLineFormat.header === 1) {
+    if (secondLineFormat.header === TITLE_LEVEL) {
       this.editor.formatLine(secondLineIndex, 'header', 0);
     }
 
-    this.setState({
-      showTextPlaceholder: !preview,
-      showTitlePlaceholder: !title || title === ' ' || title === '\n',
-    });
+    const title = this.getTitle();
+    const preview = this.getPreview();
+    const {titlePlaceholder, textPlaceholder} = this.props;
+    const titleElement = this.editorElement.querySelector('h1:first-of-type');
+
+    if (!title || title === ' ' || title === '\n') {
+      this.editorElement.classList.add(this.titlePlaceholderClass);
+      titleElement.setAttribute('data-placeholder-title', titlePlaceholder);
+    }
+    if (!preview || preview === ' ' || preview === '\n') {
+      this.editorElement.classList.add(this.textPlaceholderClass);
+      titleElement.setAttribute('data-placeholder-text', textPlaceholder);
+    }
   }
 
   onSave = () => {
@@ -119,10 +123,16 @@ class NoteInner extends Component<Props, State> {
   }
 
   setValue = (props) => {
-    const { value } = props;
+    const { value, titlePlaceholder, textPlaceholder } = props;
+    const emptyTitle = 
+      `<h1
+        data-placeholder-title='${titlePlaceholder}'
+        data-placeholder-text='${textPlaceholder}'><br/></h1>`;
+    const emptyText = `<p><br/></p>`;
+
     let text;
     if (value.fullText) text = value.fullText;
-    else text = '<h1><br/></h1>';
+    else text = emptyTitle + emptyText;
 
     this.editor.root.innerHTML = text;
   }

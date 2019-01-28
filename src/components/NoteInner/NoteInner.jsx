@@ -44,6 +44,16 @@ class NoteInner extends Component<Props, State> {
     );
 
     this.editor.on('text-change', this.onChange);
+
+    // remove \n on paste
+    this.editor.clipboard.addMatcher('h1', (node, delta) => {
+      let last = delta.ops[delta.ops.length - 1];
+      if (last.insert[last.insert.length - 1] === '\n') {
+        last.insert = last.insert.slice(0, last.insert.length - 1);
+      }
+      return delta
+    });
+
     this.setValue(this.props);
   }
 

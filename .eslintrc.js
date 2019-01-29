@@ -15,6 +15,8 @@ module.exports = {
         "no-return-assign": 0,
         "no-restricted-syntax": 0,
 
+        "jsx-a11y/label-has-for": 0,
+
         // react
         "jsx-a11y/anchor-is-valid": [ "error", {
             "components": [ "Link" ],

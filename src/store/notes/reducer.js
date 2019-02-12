@@ -4,10 +4,12 @@ import {
   NOTE_ADD,
   NOTE_EDIT,
   NOTE_DELETE,
+  NOTE_PLACEHOLDER,
+} from './constants';
+import {
   START,
   SUCCESS,
   FAIL,
-  NOTE_PLACEHOLDER,
 } from 'store/constants';
 
 const defaultState = {

@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { noteEditAction, noteDeleteAction } from 'store/actions';
-import { noteByIdSelector } from 'store/selectors';
+import { noteEditAction, noteDeleteAction } from 'store/notes/actions';
+import { noteByIdSelector } from 'store/notes/selectors';
 import NoteInner from 'components/NoteInner';
 import NotFoundPage from 'components/NotFoundPage';
 import Loader from 'components/Loader';

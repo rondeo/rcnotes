@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import cx from 'classnames';
 
-import { notesLoadAction, noteDeleteAction } from 'store/actions';
+import { notesLoadAction, noteDeleteAction } from 'store/notes/actions';
 import NotePreview from 'components/NotePreview';
 import ListHeader from 'components/ListHeader';
 import Icon from 'components/Icon';

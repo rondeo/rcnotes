@@ -2,7 +2,7 @@ import { push } from 'react-router-redux';
 import db from 'database';
 import routes from 'routes';
 import { readFile, downloadFile } from 'utils';
-import { notesLoadAction } from 'store/actions';
+import { notesLoadAction } from './actions';
 import {
   NOTE_LOAD,
   NOTES_LOAD,
@@ -11,10 +11,12 @@ import {
   NOTE_DELETE,
   NOTE_EXPORT,
   NOTE_IMPORT,
+} from './constants';
+import {
   START,
   SUCCESS,
   FAIL,
-} from '../constants';
+} from 'store/constants';
 
 const PREVIEW_LENGTH = 100;
 

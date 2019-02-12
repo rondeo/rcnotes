@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import { noteAddAction } from 'store/actions';
+import { noteAddAction } from 'store/notes/actions';
 
 import NoteInner from 'components/NoteInner';
 

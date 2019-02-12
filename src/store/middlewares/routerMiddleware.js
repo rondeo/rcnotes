@@ -1,5 +1,6 @@
 import { getRandomPlaceholder } from 'utils';
-import { LOCATION_CHANGE, NOTE_PLACEHOLDER } from 'store/constants';
+import { LOCATION_CHANGE } from 'store/constants';
+import { NOTE_PLACEHOLDER } from 'store/notes/constants';
 import routes from 'routes';
 
 export default store => next => (action) => {

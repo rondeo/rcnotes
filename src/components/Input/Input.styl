@@ -1,0 +1,20 @@
+.label
+  position relative
+  display block
+  & + &
+    margin-top 20px
+
+.placeholder
+  color $gray-darker
+  line-height 1
+  background-color #fff
+  padding 2px
+  position absolute
+  top 50%
+  left 8px
+  transform translateY(-50%)
+  transition all .1s ease
+  .input:focus ~ &,
+  &Focused
+    font-size .8em
+    top 0

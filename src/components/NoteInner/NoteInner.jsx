@@ -22,6 +22,7 @@ type State = {
 class NoteInner extends Component<Props, State> {
   titlePlaceholderClass: string = styles.editorTitlePlaceholder;
   textPlaceholderClass: string = styles.editorTextPlaceholder;
+  emptyPreview: string = '<p><br></p>';
 
   state = {
     showToolbar: true,
@@ -47,11 +48,11 @@ class NoteInner extends Component<Props, State> {
 
     // remove \n on paste
     this.editor.clipboard.addMatcher('h1', (node, delta) => {
-      let last = delta.ops[delta.ops.length - 1];
+      const last = delta.ops[delta.ops.length - 1];
       if (last.insert[last.insert.length - 1] === '\n') {
         last.insert = last.insert.slice(0, last.insert.length - 1);
       }
-      return delta
+      return delta;
     });
 
     this.setValue(this.props);
@@ -103,14 +104,14 @@ class NoteInner extends Component<Props, State> {
 
     const title = this.getTitle();
     const preview = this.getPreview();
-    const {titlePlaceholder, textPlaceholder} = this.props;
+    const { titlePlaceholder, textPlaceholder } = this.props;
     const titleElement = this.editorElement.querySelector('h1:first-of-type');
 
     if (!title || title === ' ' || title === '\n') {
       this.editorElement.classList.add(this.titlePlaceholderClass);
       titleElement.setAttribute('data-placeholder-title', titlePlaceholder);
     }
-    if (!preview || preview === ' ' || preview === '\n') {
+    if (!preview.html || preview.html === this.emptyPreview) {
       this.editorElement.classList.add(this.textPlaceholderClass);
       titleElement.setAttribute('data-placeholder-text', textPlaceholder);
     }
@@ -121,7 +122,7 @@ class NoteInner extends Component<Props, State> {
     const { submitHandler } = this.props;
 
     const title = this.getTitle();
-    const preview = this.getPreview();
+    const preview = this.getPreview().text;
     const fullText = data.innerHTML;
 
     submitHandler({
@@ -134,15 +135,13 @@ class NoteInner extends Component<Props, State> {
 
   setValue = (props) => {
     const { value, titlePlaceholder, textPlaceholder } = props;
-    const emptyTitle = 
-      `<h1
+    const emptyTitle = `<h1
         data-placeholder-title='${titlePlaceholder}'
         data-placeholder-text='${textPlaceholder}'><br/></h1>`;
-    const emptyText = `<p><br/></p>`;
 
     let text;
     if (value.fullText) text = value.fullText;
-    else text = emptyTitle + emptyText;
+    else text = emptyTitle + this.emptyPreview;
 
     this.editor.root.innerHTML = text;
   }
@@ -150,9 +149,15 @@ class NoteInner extends Component<Props, State> {
   getTitle = () => this.editor.getLine(0)[0].domNode.innerText;
 
   getPreview = () => {
-    const title = this.getTitle();
-    const preview = this.editor.root.innerText;
-    return preview.slice(title.length).trim();
+    const html = this.editor.root.innerHTML;
+    const titleHtml = html.match(/<h1.*?<\/h1>/) || [];
+    const titleText = this.getTitle();
+    const previewText = this.editor.root.innerText.slice(titleText.length).trim();
+    const previewHtml = this.editor.root.innerHTML.slice(titleHtml[0].length);
+    return {
+      text: previewText,
+      html: previewHtml,
+    };
   }
 
   toggleToolbar = () => {

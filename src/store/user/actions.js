@@ -5,11 +5,11 @@ import {
   USER_LOGOUT,
 } from './constants';
 
-export const loginAction = () => ({
+export const loginAction = data => ({
   type: USER_LOGIN,
 });
 
-export const registerAction = () => ({
+export const registerAction = data => ({
   type: USER_REGISTER,
 });
 

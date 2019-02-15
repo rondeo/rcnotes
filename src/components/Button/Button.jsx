@@ -4,18 +4,19 @@ import cx from 'classnames';
 import styles from './Button.styl';
 
 type Props = {
+  type: 'button' | 'submit',
   children: React.$Node,
   onClick: () => void,
-  type?: 'transparent' | 'common' | 'link',
+  styleType?: 'transparent' | 'common' | 'link',
   size?: 'wide' | 'none',
   className?: string,
 }
 
-const Button = ({ children, onClick, type = 'common', size, className }: Props) => (
+const Button = ({ children, onClick, type = 'button', styleType = 'common', size, className }: Props) => (
   <button
-    type="button"
+    type={type}
     onClick={onClick}
-    className={cx(styles.button, styles[type], styles[size], className)}
+    className={cx(styles.button, styles[styleType], styles[size], className)}
   >
     {children}
   </button>

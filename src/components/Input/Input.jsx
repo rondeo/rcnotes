@@ -3,38 +3,72 @@ import cx from 'classnames';
 
 import styles from './Input.styl';
 
+
+const Input = ({
+  input,
+  meta,
+  placeholder,
+  type = 'text',
+  autoComplete = 'on',
+  ...rest,
+}) => {
+  console.log(meta.error);
+
+  return (
+    <div className={styles.wrapper}>
+      <label className={styles.label}>
+        <input
+          {...input}
+          type={type}
+          className={styles.input}
+          autoComplete={autoComplete}
+        />
+        <span
+          className={cx(styles.placeholder, input.value && styles.placeholderFocused)}
+        >
+          {placeholder}
+        </span>
+      </label>
+      {meta.error && meta.touched && (
+        <div className={styles.error}>{meta.error}</div>
+      )}
+    </div>
+  );
+};
+
+/*
 class Input extends Component {
   state = {
-    value: this.props.value || '',
-    focused: !!this.props.value || false,
+    focused: !!this.props.input.value || false,
   }
 
   render() {
     const {
-      name,
+      input,
       type = 'text',
       placeholder,
       autoComplete = 'on',
+      error,
     } = this.props;
-    const { value, focused } = this.state;
+    const { focused } = this.state;
 
     return (
       <label className={styles.label}>
-        <input
-          type={type}
-          name={name}
-          className={styles.input}
-          autoComplete={autoComplete}
-          value={value}
-          onChange={this.onChange}
-          onFocus={this.onFocus}
-          onBlur={this.onFocus}
-        />
         <span
           className={cx(styles.placeholder, focused && styles.placeholderFocused)}
         >
           {placeholder}
         </span>
+        <input
+          {...input}
+          type={type}
+          className={styles.input}
+          autoComplete={autoComplete}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onBlur={this.onFocus}
+        />
+        {error && <span className={styles.error}>{error}</span>}
       </label>
     );
   }
@@ -48,8 +82,9 @@ class Input extends Component {
   onFocus = () => {
     this.setState(prevState => ({
       focused: !!prevState.value,
-    }));
+    }), this.props.input.onFocus());
   }
 }
+*/
 
 export default Input;

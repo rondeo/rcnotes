@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from 'pages/Home';
 import Notes from 'pages/Notes';
 import NotFoundPage from 'pages/NotFoundPage';
@@ -30,6 +30,7 @@ class Root extends Component {
           </div>
           <main className={styles.main}>
             <Switch>
+              {/* <Redirect from="/" to={routes.list.path} /> */}
               <Route exact path={routes.auth.path} component={AuthPage} />
               <AuthRoute exact path={routes.home.path} component={Home} />
               <AuthRoute path={routes.list.path} component={Notes} />

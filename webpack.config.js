@@ -49,11 +49,11 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
                 importLoaders: 1,
-                minimize: isProduction,
                 sourceMap: !isProduction,
-                localIdentName: '[name]__[local]_[hash:base64:5]',
+                modules: {
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                },
               },
             },
             {

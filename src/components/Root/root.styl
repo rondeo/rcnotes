@@ -23,7 +23,11 @@
   background-color $textColor
   display block
   flex 0 0 auto
+  transition transform .3s
   @media $tablet
     position absolute
     top 0
     right 100%
+    z-index 10
+    &Open
+      transform translateX(100%)

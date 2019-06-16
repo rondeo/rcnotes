@@ -69,7 +69,7 @@ class AuthPage extends Component {
                 {isRegistration ? 'Already have an account?' : 'No account?'}
                 <Button
                   onClick={this.toggleTab}
-                  styleType="transparent"
+                  theme="transparent"
                   className={styles.footerButton}
                 >
                   {isRegistration ? 'Login' : 'Create one'}

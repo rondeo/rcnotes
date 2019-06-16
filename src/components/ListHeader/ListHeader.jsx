@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import routes from 'routes';
 
 import Icon from 'components/Icon';
+import BurgerButton from 'components/BurgerButton';
 
 import styles from './list-header.styl';
 
@@ -18,7 +19,7 @@ const ListHeader = () => (
       </Link>
     </div>
     <div className={cx(styles.wrapper, styles.wrapperTablet)}>
-      <Icon type="menu" className={styles.icon} />
+      <BurgerButton iconClassName={styles.icon} />
       <span>NOTES</span>
       <Icon type="search" className={styles.icon} />
     </div>

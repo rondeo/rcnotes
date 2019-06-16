@@ -11,6 +11,8 @@ import { noteAddAction, noteEditAction, noteDeleteAction } from 'store/notes/act
 import { noteByIdSelector } from 'store/notes/selectors';
 import routes from 'routes';
 
+import styles from './note-detail.styl'
+
 const NoteDetail = ({
   isLoading,
   item,
@@ -25,8 +27,12 @@ const NoteDetail = ({
   if (!item && !isNewNote) return <NotFoundPage />;
   return (
     <div>
-      <Button theme="transparent" to={routes.list.path}>
-          <Icon type="arrow_back" />
+      <Button
+        theme="transparent"
+        to={routes.list.path}
+        className={styles.button}
+      >
+        <Icon type="arrow_back" />
       </Button>
       <NoteInner
         value={isNewNote ? {} : item}

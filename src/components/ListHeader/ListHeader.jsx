@@ -15,13 +15,13 @@ const ListHeader = () => (
       <input placeholder="search" className={styles.input} role="search" />
       <Link to={routes.new.path} className={styles.link} title="Create a new note">
         <span className={styles.linkHidden}>Create a new note</span>
-        <Icon type="note_add" className={styles.icon} />
+        <Icon type="note_add" />
       </Link>
     </div>
     <div className={cx(styles.wrapper, styles.wrapperTablet)}>
       <BurgerButton iconClassName={styles.icon} />
       <span>NOTES</span>
-      <Icon type="search" className={styles.icon} />
+      <Icon type="search" />
     </div>
   </Fragment>
 );

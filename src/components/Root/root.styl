@@ -1,6 +1,7 @@
-.canvas
+.root
   width 100%
   height 100vh
+  overflow hidden
   display flex
   flex-direction column
 
@@ -15,19 +16,3 @@
   height 100%
   display flex
   flex 0 1 auto
-
-.menu
-  width $menu-width
-  height 100%
-  color $lightColor
-  background-color $textColor
-  display block
-  flex 0 0 auto
-  transition transform .3s
-  @media $tablet
-    position absolute
-    top 0
-    right 100%
-    z-index 10
-    &Open
-      transform translateX(100%)

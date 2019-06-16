@@ -29,7 +29,7 @@ const ControllButton = ({ type, value, icon, color, label, onClick, className })
     {color && (
       <span className={styles.color} style={{backgroundColor: value}}/>
     )}
-    {icon && <Icon type={icon} className="ql-picker-label" />}
+    {icon && <Icon type={icon} className="ql-picker-label" size="small" />}
   </button>
 );
 

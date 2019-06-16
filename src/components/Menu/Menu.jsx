@@ -2,7 +2,7 @@
 import React, {PureComponent} from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import onClickOutside from 'react-onclickoutside';
+import cx from 'classnames';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
 import { noteImportAction, noteExportAction } from 'store/notes/actions';
@@ -12,18 +12,19 @@ import routes from 'routes';
 
 import styles from './menu.styl';
 
-class Menu extends PureComponent {
-  onUpload = (e) => {
+const Menu = ({
+  isOpen, importHandler, exportHandler, closeMenuHandler
+}) => {
+  const onUpload = (e) => {
     importHandler(e.target.files[0]);
     e.value = '';
   };
 
-  handleClickOutside = this.props.closeMenuHandler;
-
-  render() {
-    const { importHandler, exportHandler } = this.props;
-    return (
-      <div >
+  return (
+    <div className={cx(styles.root, {
+        [styles.rootOpen]: isOpen,
+    })}>
+      <div className={styles.rootContainer}>
         <NavLink
           to={routes.list.path}
           className={styles.rootItem}
@@ -40,7 +41,7 @@ class Menu extends PureComponent {
             import
             <input
               type="file"
-              onChange={this.onUpload}
+              onChange={onUpload}
               className={styles.input}
             />
           </label>
@@ -57,9 +58,20 @@ class Menu extends PureComponent {
           export
         </Button>
       </div>
-    );
-  }
+
+      <div
+        className={cx(styles.overlay, {
+          [styles.overlayOpen]: isOpen,
+        })}
+        onClick={closeMenuHandler}
+      />
+    </div>
+  );
 }
+
+const mapStateToProps = ({menu: {isOpen}}) => ({
+  isOpen,
+});
 
 const mapDispatchToProps = dispatch => ({
   importHandler: file => dispatch(noteImportAction(file)),
@@ -68,6 +80,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
-)(onClickOutside(Menu));
+)(Menu);

@@ -1,7 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import cx from 'classnames';
 import Home from 'pages/Home';
 import Notes from 'pages/Notes';
@@ -20,18 +19,13 @@ class Root extends PureComponent {
   }
 
   render() {
-    const { isMenuOpen } = this.props;
     return (
       <div
-        className={styles.canvas}
+        className={styles.root}
         ref={el => this.rootNode = el}
       >
         <div className={styles.layout}>
-          <div className={cx(styles.menu, {
-            [styles.menuOpen]: isMenuOpen,
-          })}>
-            <Menu closeMenu={this.closeMenu} />
-          </div>
+          <Menu closeMenu={this.closeMenu} />
           <main className={styles.main}>
             <Switch>
               {/* <Redirect from="/" to={routes.list.path} /> */}
@@ -52,8 +46,4 @@ class Root extends PureComponent {
   }
 }
 
-const mapStateToProps = ({menu: {isOpen}}) => ({
-  isMenuOpen: isOpen,
-});
-
-export default connect(mapStateToProps)(Root);
+export default withRouter(Root);

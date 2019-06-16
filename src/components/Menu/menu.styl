@@ -1,4 +1,21 @@
 .root
+  width $menu-width
+  height 100%
+  color $lightColor
+  background-color $textColor
+  display block
+  flex 0 0 auto
+  transition transform .3s
+  @media $tablet
+    position absolute
+    top 0
+    right 100%
+    z-index 10
+
+    &Open
+      box-shadow 0 0 5px alpha(#000, .6)
+      transform translateX(100%)
+
   &Item
     text-decoration none
     padding 5px 10px
@@ -8,6 +25,18 @@
       background-color $red
       &:hover
         color $lightColor
+
+.overlay
+  @media $tablet
+    display none
+    width 100vw
+    height 100%
+    background-color alpha(#000, .3)
+    position absolute
+    top 0
+    left 100%
+    &Open
+      display block
 
 .icon
   margin-right 10px
